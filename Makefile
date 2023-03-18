@@ -28,13 +28,13 @@ prebuilt/simulation/boot_simulation.bin:
 
 simulation: prebuilt/simulation/boot_simulation.bin
 	litex_sim --cpu-type blackparrot \
-		--cpu-variant standard \
+		--cpu-variant sim \
 		--with-sdram \
 		--sdram-init prebuilt/simulation/boot_simulation.bin
 
 simulation-non-interactive: prebuilt/simulation/boot_simulation.bin
 	litex_sim --cpu-type blackparrot \
-		--cpu-variant standard \
+		--cpu-variant sim \
 		--with-sdram \
 		--sdram-init prebuilt/simulation/boot_simulation.bin \
 		--non-interactive \

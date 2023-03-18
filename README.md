@@ -18,7 +18,7 @@ $ sudo apt-get install wget build-essential python3 verilator libevent-dev libjs
 $ pip3 install setuptools requests pexpect
 $ git clone https://github.com/scanakci/linux-on-litex-blackparrot
 $ cd linux-on-litex-blackparrot
-$ git submodule update --init
+$ git submodule update --init --recursive
 ```
 ## Installing LiteX
 
@@ -55,7 +55,7 @@ $ make simulation
 Alternatively manually launch simulation.
 ```
 $ cd linux-on-litex-blackparrot
-$ lxsim --cpu-type blackparrot --cpu-variant standard --with-sdram --sdram-init prebuilt/simulation/boot_simulation.bin
+$ lxsim --cpu-type blackparrot --cpu-variant sim --with-sdram --sdram-init prebuilt/simulation/boot_simulation.bin
 
 ```
 
