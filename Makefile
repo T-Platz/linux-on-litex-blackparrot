@@ -27,13 +27,17 @@ prebuilt/simulation/boot_simulation.bin:
 	riscv64-unknown-elf-objcopy -O binary freedom-u-sdk/work/riscv-pk/bbl prebuilt/simulation/boot_simulation.bin
 
 simulation: prebuilt/simulation/boot_simulation.bin
-	litex_sim --cpu-type blackparrot \
+	litex_sim --threads 4 \
+		--opt-level Ofast \
+		--cpu-type blackparrot \
 		--cpu-variant sim \
 		--with-sdram \
 		--sdram-init prebuilt/simulation/boot_simulation.bin
 
 simulation-non-interactive: prebuilt/simulation/boot_simulation.bin
-	litex_sim --cpu-type blackparrot \
+	litex_sim --threads 4 \
+		--opt-level Ofast \
+		--cpu-type blackparrot \
 		--cpu-variant sim \
 		--with-sdram \
 		--sdram-init prebuilt/simulation/boot_simulation.bin \
