@@ -26,8 +26,8 @@ $ python3 litex_setup.py init install --user --config=full
 Additionally, the version of the BlackParrot unicore lite used here requires some hotfixes:
 ```
 $ cd linux-on-litex-blackparrot
-$ sed -i "s|localparam dram_base_addr_gp         = 40'h00_8000_0000;|localparam dram_base_addr_gp         = 40'h00_7000_0000;|" pythondata-cpu-blackparrot/pythondata_cpu_blackparrot/system_verilog/black-parrot/bp_common/src/include/bp_common_addr_pkgdef.svh
-$ sed -i "s|fsm_ready_and_o = (fsm_v_i & ~fsm_last_o) | msg_ready_and_i;|fsm_ready_and_o = ~fsm_last_o | msg_ready_and_i;|" pythondata-cpu-blackparrot/pythondata_cpu_blackparrot/system_verilog/black-parrot/bp_me/src/v/network/bp_me_stream_pump_out.sv
+$ sed -i "s:localparam dram_base_addr_gp         = 40'h00_8000_0000;:localparam dram_base_addr_gp         = 40'h00_7000_0000;:" pythondata-cpu-blackparrot/pythondata_cpu_blackparrot/system_verilog/black-parrot/bp_common/src/include/bp_common_addr_pkgdef.svh
+$ sed -i "s:fsm_ready_and_o = (fsm_v_i & ~fsm_last_o) | msg_ready_and_i;:fsm_ready_and_o = ~fsm_last_o | msg_ready_and_i;:" pythondata-cpu-blackparrot/pythondata_cpu_blackparrot/system_verilog/black-parrot/bp_me/src/v/network/bp_me_stream_pump_out.sv
 ```
 
 ## Installing RISC-V toolchain
