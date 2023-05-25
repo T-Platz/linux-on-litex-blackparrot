@@ -4,11 +4,7 @@
 
 This repository presents necessary steps to run Linux on FPGA and simulation level using BP core integrated into LiteX.
 
-> **Note:** Tested on Ubuntu 20.04
-
-## FPGA Demo
-
-[![https://www.youtube.com/watch?v=npeDkfEMsoI](https://img.youtube.com/vi/npeDkfEMsoI/0.jpg)](https://www.youtube.com/watch?v=npeDkfEMsoI "BP LiteX Linux FPGA")
+> **Note:** Running Linux does not work currently. However, it is possible to enter the LiteX bios.
 
 
 ## Prerequisites
@@ -43,9 +39,6 @@ Pre-built bistream for the Arty and pre-built Berkeley boot loader (bbl) can be 
 
 
 ### Simulation
-Due to a regression in Litex you need to adjust the ram offset for BlackParrot in $LITEX/litex/litex_sim.py from
-`ram_boot_offset  = 0x40000000 # FIXME` to `ram_boot_offset  = 0x80000000 # FIXME`.
-
 Using make to:
 ```
 $ cd linux-on-litex-blackparrot
@@ -55,8 +48,7 @@ $ make simulation
 Alternatively manually launch simulation.
 ```
 $ cd linux-on-litex-blackparrot
-$ lxsim --cpu-type blackparrot --cpu-variant sim --with-sdram --sdram-init prebuilt/simulation/boot_simulation.bin
-
+$ litex_sim --threads 4 --opt-level Ofast --cpu-type blackparrot --cpu-variant sim --with-sdram --sdram-init prebuilt/simulation/boot_simulation.bin
 ```
 
 ### FPGA
@@ -72,17 +64,19 @@ $ cd litex
 $ litex-boards/litex_boards/targets/digilent_arty.py --build --sys-clk-freq 20e6 --cpu-type blackparrot --cpu-variant standard --variant=a7-100 --csr-csv "csr-arty.csv"
 ```
 
+
 Manually load the FPGA bitstream to the Arty:
 ```
 $ cd litex
 $ litex-boards/litex_boards/targets/digilent_arty.py --load --sys-clk-freq 20e6 --cpu-type blackparrot --cpu-variant standard --variant=a7-100 --csr-csv "csr-arty.csv"
 ```
+
 You can also find the bitfile `digilent_arty.bit` in the `build/gateware` folder and upload it using vivado hardware manager.
 
 In another terminal, launch LiteX terminal.
 ```
 $ cd linux-on-litex-blackparrot
-$ lxterm /dev/ttyUSB* --kernel prebuilt/fpga/Arty/boot_digilent_arty.bin --kernel-adr 0x80000000 --speed=115200
+$ litex_term /dev/ttyUSB* --kernel prebuilt/fpga/Arty/boot_digilent_arty.bin --kernel-adr 0x80000000 --speed=115200
 ```
 
 If the memory test fails you might need to adjust the [DRAM CL](https://github.com/enjoy-digital/litex/issues/933#issuecomment-873638621).
@@ -109,8 +103,8 @@ Additionally adjust the location of the [UART CSR](https://github.com/developand
 $ cd freedom-u-sdk
 $ git checkout blackparrot_mods
 $ git submodule update --init --recursive
-$ make bbl LITEX_MODE=-DLITEX_MODE //The BBL is located in work/riscv-pk/
-$ riscv64-unknown-elf-objcopy -O binary work/riscv-pk/bbl boot.bin // final bbl that needs to be loaded in DRAM
+# The BBL is located in work/riscv-pk/
+$ make bbl LITEX_MODE=-DLITEX_MODE
+# Final bbl that needs to be loaded in DRAM
+$ riscv64-unknown-elf-objcopy -O binary work/riscv-pk/bbl boot.bin
 ```
-
-
